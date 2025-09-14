@@ -1,0 +1,287 @@
+{
+  "name": "Gmail Label Classifier_AI Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "simple": false,
+        "filters": {},
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -1360,
+        -416
+      ],
+      "id": "109cb38c-8ff4-4159-ab6e-76b28be1c384",
+      "name": "Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "fI5JTXWHgcaQNWOr",
+          "name": "Gmail account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $json.text }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "Business Inquiries",
+              "description": "Emails related to professional queries, service requests, product information, or potential client deals."
+            },
+            {
+              "category": "Collaboration",
+              "description": "Emails from individuals or organizations looking to partner, co-create content, or work together on projects."
+            },
+            {
+              "category": "Jobs",
+              "description": "Emails about job opportunities, hiring requests, career offers, or applications."
+            },
+            {
+              "category": "Others",
+              "description": "General emails that don’t fit into specific categories, including casual messages, updates, or miscellaneous information."
+            },
+            {
+              "category": "Sponsorship",
+              "description": "Emails offering sponsorships, advertising deals, or proposals to financially support and promote content."
+            }
+          ]
+        },
+        "options": {
+          "systemPromptTemplate": "Please classify the text provided by the user into one of the following categories: {categories}, and use the provided formatting instructions below. Don't explain, and only output the json."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1.1,
+      "position": [
+        -1040,
+        -464
+      ],
+      "id": "dc4e4dff-3023-4dae-a5db-1b78d72d4eb6",
+      "name": "Text Classifier"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1040,
+        -128
+      ],
+      "id": "0ab3d2d0-d89d-4f43-a9bd-ef9dd2f4b5ae",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "neUbHH4oWR6facKi",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $json.id }}",
+        "labelIds": [
+          "Label_2412267814514115440"
+        ]
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -512,
+        -688
+      ],
+      "id": "2fc4059c-d935-4c56-b475-7f7f3aa853e5",
+      "name": "Business Inquires",
+      "webhookId": "fe7473f1-c29f-444f-95f5-4eae1b881790",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "fI5JTXWHgcaQNWOr",
+          "name": "Gmail account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $json.id }}",
+        "labelIds": [
+          "Label_3466618722373436530"
+        ]
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -304,
+        -560
+      ],
+      "id": "80c0da09-9f71-4641-8890-6749a9392075",
+      "name": "Collaboration",
+      "webhookId": "fe7473f1-c29f-444f-95f5-4eae1b881790",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "fI5JTXWHgcaQNWOr",
+          "name": "Gmail account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $json.id }}",
+        "labelIds": [
+          "Label_1212341365991873168"
+        ]
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -176,
+        -384
+      ],
+      "id": "d5a8764c-aa59-495f-ac99-a315176831f4",
+      "name": "Jobs",
+      "webhookId": "fe7473f1-c29f-444f-95f5-4eae1b881790",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "fI5JTXWHgcaQNWOr",
+          "name": "Gmail account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $json.id }}",
+        "labelIds": [
+          "Label_3732573114705316759"
+        ]
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -352,
+        -256
+      ],
+      "id": "4d3a3f07-3b5f-48df-ae6f-a59f7d3bfc7b",
+      "name": "Others",
+      "webhookId": "fe7473f1-c29f-444f-95f5-4eae1b881790",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "fI5JTXWHgcaQNWOr",
+          "name": "Gmail account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $json.id }}",
+        "labelIds": [
+          "Label_7666931963793012593"
+        ]
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -528,
+        -144
+      ],
+      "id": "8590aef0-5b46-4693-87a4-62d5dc672b33",
+      "name": "Sponsorship",
+      "webhookId": "fe7473f1-c29f-444f-95f5-4eae1b881790",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "fI5JTXWHgcaQNWOr",
+          "name": "Gmail account 3"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text Classifier": {
+      "main": [
+        [
+          {
+            "node": "Business Inquires",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Collaboration",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Jobs",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Others",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Sponsorship",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "e8b82a91-bf12-4ab5-b956-76ce6e4e1b8e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ab530c00874a761f7f1d916a9c59c1accb0e186be78423cc393f4735551a8f38"
+  },
+  "id": "uNfbY0Y0JMQVt5F1",
+  "tags": []
+}
